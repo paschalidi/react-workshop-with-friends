@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { connect } from "react-redux";
+import Product from "./product/Product";
+import products from "./products";
+import { SAVE_PRODUCTS } from "./constants";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({ type: SAVE_PRODUCTS, payload: { products } });
+  }
+
+  render() {
+    return (
+      <div>
+        {products.map(item => (
+          <Product
+            key={item.id}
+            id={item.id}
+            price={item.price}
+            title={item.title}
+          />
+        ))}
+      </div>
+    );
+  }
 }
 
-export default App;
+export default connect()(App);
